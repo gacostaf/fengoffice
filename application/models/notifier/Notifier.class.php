@@ -1855,7 +1855,6 @@ class Notifier
 			$message->attach($attach);
 		}
 
-		$message->setContentType($type);
 		$to = prepare_email_addresses(implode(",", $to));
 		foreach ($to as $address) {
 			$message->addTo(array_var($address, 0), array_var($address, 1));
@@ -1867,24 +1866,18 @@ class Notifier
 			$message->setFrom($mailer->getTransport()->getUsername());
 		}
 
-		//$message->setBody($body, 'text/html');
-
 		/**
 		 * Debug Logging to verify if 
 		 * this notifier is sending 
 		 * the email messages.
 		 */
 		file_put_contents(
-			'/tmp/fengoffice_notifier_send.log',
-			date('c')
-			. " Notifier::sendEmail"
-			. " type=" . $type
-			. " subject=" . $subject
-			. " body_start=" . substr($body, 0, 300)
-			. "\n",
+			'/tmp/fengoffice_notifier_result.log',
+			date('c') . " before send subject=$subject\n" .
+			"mime_content_type=" . $message->getContentType() . "\n" .
+			$message->toString() . "\n---END---\n",
 			FILE_APPEND
 		);
-
 
 		$result = $mailer->send($message);
 
