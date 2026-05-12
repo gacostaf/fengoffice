@@ -899,6 +899,10 @@ class MailController extends ApplicationController {
 
 	//Esta funcion
 	function send_outbox_mails($user=null,$user_account=null,$from_time=null) {
+                
+                file_put_contents('/tmp/fengoffice_send_outbox_entered.log', date('c') . " entered send_outbox_mails\n", FILE_APPEND);
+
+
 		if(is_null($user)){
 			$user = logged_user();
 		}
@@ -1005,7 +1009,22 @@ class MailController extends ApplicationController {
 						$cc = $mail->getCc();
 						$bcc = $mail->getBcc();
 						// $type = $mail->getBodyHtml() != '' ? 'text/html' : 'text/plain';
+
 						$type = 'text/html';
+
+						// DEBUG LOG
+						file_put_contents(
+						    '/tmp/fengoffice_send_type.log',
+						    date('c') . 
+						    " mail_id=" . $mail->getId() .
+						    " type=$type html_len" ' strlen($mail->getBodyHtml()) .
+						    " plain_len=" . strlen($mail->getBodyPlain()) .
+						    " html_start=" . substr($mail->getBodyHtml(), 0, 200) .
+						    " plain_start=" . substr($mail->getBodyPlain(), 0, 200) .
+						    "\n",
+						    FILE_APPEND
+						);
+
 						$msg_id = $mail->getMessageId();
 						$in_reply_to_id = $mail->getInReplyToId();
 

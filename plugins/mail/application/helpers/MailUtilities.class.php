@@ -1,4 +1,7 @@
-}<?php
+<?php
+
+file_put_contents('/tmp/fengoffice_mailutilities_loaded.log', date('c') . " loaded\n", FILE_APPEND);
+
 require_once 'Net/IMAP.php';
 require_once "Net/POP3.php";
 
@@ -1156,6 +1159,14 @@ class MailUtilities {
 	 		$message->setBody($body, 'text/html', 'utf-8');
 
 			$complete_mail = self::retrieve_original_mail_code($message);
+			// To verify if the email is being sent as 'text/html'
+                        Logger::log_r("MAIL DEBUG type=$type body_html=" . substr($body, 0, 100));
+                        file_put_contents(
+                            ROOT . '/cache/mail_debug.log',
+                            date('Y-m-d H:i:s') . " MAIL DEBUG type=$type body_start=". substr($body, 0, 200) . "\n",
+                            FILE_APPEND
+                        );
+
 			//Send the message
 			$failed_recipients = array();
 			$result = $mailer->send($message, $failed_recipients);
@@ -1818,10 +1829,17 @@ class MailUtilities {
 				return false;
 			}
 		}
+                // debug
+                file_put_contents(
+                    '/tmp/fengoffice_mail_debug.log', 
+                    date('c') . " MIME PATH body_start=" . substr($body, 0, 300) . "\n", 
+                    FILE_APPEND
+                ); 
+
 		if(! $mailer->isConnected() )  return false;
 
-		// add attachments
-		$mailer->addPart($body); // real body
+                // add attachments
+		$mailer->addPart($body, 'text/html', 'utf-8'); // real body
 		if (is_array($attachments) && count($attachments) > 0) {
 			foreach ($attachments as $att)
 			$mailer->addAttachment($att["data"], $att["name"], $att["type"]);

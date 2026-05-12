@@ -1,0 +1,1 @@
+[12-May-2026 16:05:24 UTC] PHP Parse error:  syntax error, unexpected single-quoted string " strlen($mail->getBodyHtml()) .", expecting ")" in plugins/mail/application/controllers/MailController.class.php on line 1033
