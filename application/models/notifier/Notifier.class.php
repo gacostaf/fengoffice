@@ -1,4 +1,3 @@
-1657
 <?php
 
 /**
@@ -1827,11 +1826,24 @@ class Notifier
 		}
 
 		//Create the message
+		/**
+		 *  Delete this block
+		 * 
+		 * $message = Swift_Message::newInstance($subject)
+		 * ->setFrom($from)
+		 *	->setBody($body)
+		 *	->setContentType('text/html')
+		 * ;
+		 */
+
 		$message = Swift_Message::newInstance($subject)
-			->setFrom($from)
-			->setBody($body)
-			->setContentType('text/html')
-		;
+			->setFrom(array($from_email => $from_name))
+			->setTo($to)
+			->setBody($body, 'text/html', 'utf-8');
+
+		$message->addPart(strip_tags($body), 'text/plain', 'utf-8');
+		$message->setContentType('text/html');
+		$message->setCharset('utf-8');
 
 		foreach ($attachments as $a) {
 			$attach = Swift_Attachment::fromPath(array_var($a, 'path'), array_var($a, 'type'));
@@ -1855,7 +1867,7 @@ class Notifier
 			$message->setFrom($mailer->getTransport()->getUsername());
 		}
 
-		$message->setBody($body, 'text/html');
+		//$message->setBody($body, 'text/html');
 
 		/**
 		 * Debug Logging to verify if 
