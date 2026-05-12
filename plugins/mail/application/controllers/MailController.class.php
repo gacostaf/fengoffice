@@ -1004,7 +1004,8 @@ class MailController extends ApplicationController {
 						$body = $mail->getBodyHtml() != '' ? $mail->getBodyHtml() : $mail->getBodyPlain();
 						$cc = $mail->getCc();
 						$bcc = $mail->getBcc();
-						$type = $mail->getBodyHtml() != '' ? 'text/html' : 'text/plain';
+						// $type = $mail->getBodyHtml() != '' ? 'text/html' : 'text/plain';
+						$type = 'text/html';
 						$msg_id = $mail->getMessageId();
 						$in_reply_to_id = $mail->getInReplyToId();
 

@@ -1153,7 +1153,7 @@ class MailUtilities {
 	 		}
 
 	 		self::adjustBody($message, $type, $body);
-	 		$message->setBody($body);
+	 		$message->setBody($body, 'text/html', 'utf-8');
 
 			$complete_mail = self::retrieve_original_mail_code($message);
 			//Send the message
