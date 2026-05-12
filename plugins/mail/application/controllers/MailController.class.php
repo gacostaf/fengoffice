@@ -1017,7 +1017,7 @@ class MailController extends ApplicationController {
 						    '/tmp/fengoffice_send_type.log',
 						    date('c') . 
 						    " mail_id=" . $mail->getId() .
-						    " type=$type html_len" ' strlen($mail->getBodyHtml()) .
+						    " type=$type html_len=" . strlen($mail->getBodyHtml()) .
 						    " plain_len=" . strlen($mail->getBodyPlain()) .
 						    " html_start=" . substr($mail->getBodyHtml(), 0, 200) .
 						    " plain_start=" . substr($mail->getBodyPlain(), 0, 200) .
