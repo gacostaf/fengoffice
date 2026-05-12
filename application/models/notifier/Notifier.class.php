@@ -1855,8 +1855,25 @@ class Notifier
 			$message->setFrom($mailer->getTransport()->getUsername());
 		}
 
-		$message->setContentType("text/html");
-		$message->setCharset("utf-8");
+		$message->setBody($body, 'text/html');
+
+		/**
+		 * Debug Logging to verify if 
+		 * this notifier is sending 
+		 * the email messages.
+		 */
+		file_put_contents(
+			'/tmp/fengoffice_notifier_send.log',
+			date('c')
+			. " Notifier::sendEmail"
+			. " type=" . $type
+			. " subject=" . $subject
+			. " body_start=" . substr($body, 0, 300)
+			. "\n",
+			FILE_APPEND
+		);
+
+
 		$result = $mailer->send($message);
 
 		if ($swift_logger_level >= 2 || ($swift_logger_level > 0 && !$result)) {
