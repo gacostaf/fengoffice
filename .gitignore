@@ -119,6 +119,8 @@ csrc/
 /cache
 /cache/*
 # Uploads folder
+/upload
+/upload/*
 /uploads
 /uploads/*
 
