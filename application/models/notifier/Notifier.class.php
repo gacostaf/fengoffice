@@ -1872,10 +1872,8 @@ class Notifier
 		 * the email messages.
 		 */
 		file_put_contents(
-			'/tmp/fengoffice_notifier_result.log',
-			date('c') . " before send subject=$subject\n" .
-			"mime_content_type=" . $message->getContentType() . "\n" .
-			$message->toString() . "\n---END---\n",
+			'/tmp/fengoffice_notifier_mime_sendEmail.log',
+			date('c') . "\n" . $message->toString() . "\n---END---\n",
 			FILE_APPEND
 		);
 
@@ -2145,8 +2143,8 @@ class Notifier
 				 * Debug Log 
 				 */
 				file_put_contents(
-					'/tmp/fengoffice_notifier_send.log',
-					date('c') . " notifier send content_type before html\n",
+					'/tmp/fengoffice_notifier_mime_sendQueuedEmails.log',
+					date('c') . "\n" . $message->toString() . "\n---END---\n",
 					FILE_APPEND
 				);
 
